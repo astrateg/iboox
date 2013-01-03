@@ -1,0 +1,55 @@
+﻿@model iBoox.Models.Book
+
+<div style="width: 170px; height: 190px; float: left;">
+    <div style="">
+        <a href="@Url.Action("ViewBook", new { id = Model.BookID })">
+            <img src="/content/books/covers/150/@(Model.ISBN).jpg" title="@Model.Title" alt="@Model.Title" width="150" height="150" />
+        </a>
+    </div>
+    <div data-mark="0" data-id="@Model.BookID" data-votes="@Model.Votes" data-double-avg="@Model.RatingDecAvg" data-int-avg="@Model.RatingIntAvg" class="rate_widget no_vote">
+        <div class="star_1 ratings_stars"></div>
+        <div class="star_2 ratings_stars"></div>
+        <div class="star_3 ratings_stars"></div>
+        <div class="star_4 ratings_stars"></div>
+        <div class="star_5 ratings_stars"></div>
+    </div>
+    <div class="rate_info">
+        <div class="total_votes" id="total_votes">vote data</div>
+        <div class="total_votes">Комментариев:&nbsp;<strong>@Model.BookComments.Count</strong></div>
+    </div>
+</div>
+
+<div style="margin-left: 170px; min-height: 190px;">
+    <div style="width: 80px; margin-left: 20px; float: right;">
+        <a href="/content/books/contents/@(Model.ISBN)-content.pdf">Оглавление</a>
+        @if ( (Model.Series.SeriesID != "notes") && (Model.ISBN != "978-5-17-069420-4") && (Model.ISBN != "978-5-17-062639-7") )
+        {
+            <a href="/content/books/intros/@(Model.ISBN)-intro.pdf">Предисловие</a>
+        }
+    </div>
+	<p style="margin: 0;">@Model.AuthorsList</p>
+	<h3>
+		@Html.ActionLink(Model.Title, "ViewBook", new { id = Model.BookID })
+	</h3>
+    <ul>
+        <li><b>ISBN:</b> @Model.ISBN</li>
+        <li><b>Страниц:</b> @Model.Pages</li>
+        <li><b>Год издания:</b> @Model.PublicationYear</li>
+        <li><b>Серия:</b> @Model.Series.SeriesFull</li>
+    </ul>
+    <p>
+        @Model.Annotation.Substring(0, (Model.Annotation.Length < 170) ? Model.Annotation.Length : 170)
+        <a href="@Url.Action("ViewBook", new { id = Model.BookID })">...</a>
+    </p>
+</div>
+@*	<ul>
+		<li>
+			<strong>Rating: </strong>
+			<%: Model.Votes%> 
+			<%: Model.Votes == 1 ? "user has" : "users have"%> rated this book <% if (Model.AverageRating > 0) { %><img src="<%= ImageRatingUrl %>" alt="<%: Model.AverageRating %>" /><% } %>
+		</li>
+		<li><strong>Posted By: </strong><%: Model.AddedBy %></li>
+		<li><strong>Views: </strong>this book has been read <%: Model.ViewCount %> times</li>
+		<li><strong>Location: </strong><%: Model.Location %></li>
+	</ul>
+*@

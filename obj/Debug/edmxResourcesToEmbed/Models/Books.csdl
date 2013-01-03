@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="iBooksModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="iBooksEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Authors" EntityType="iBooksModel.Author" />
+    <EntitySet Name="Books" EntityType="iBooksModel.Book" />
+    <EntitySet Name="Publishers" EntityType="iBooksModel.Publisher" />
+    <AssociationSet Name="Books_FK00" Association="iBooksModel.Books_FK00">
+      <End Role="Publishers" EntitySet="Publishers" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="BooksAuthors" Association="iBooksModel.BooksAuthors">
+      <End Role="Authors" EntitySet="Authors" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Author">
+    <Key>
+      <PropertyRef Name="AuthorID" />
+    </Key>
+    <Property Name="AuthorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="MiddleName" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="FIO" Type="String" MaxLength="70" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Books" Relationship="iBooksModel.BooksAuthors" FromRole="Authors" ToRole="Books" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="BookID" />
+    </Key>
+    <Property Name="BookID" Type="Int32" Nullable="false" />
+    <Property Name="ISBN" Type="String" MaxLength="17" Unicode="true" FixedLength="false" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Series" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Pages" Type="Int16" />
+    <Property Name="PublicationYear" Type="Int16" />
+    <Property Name="Size" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="Cover" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="Cover2" Type="Int32" />
+    <Property Name="Theme" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Annotation" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="PublisherID" Type="Int32" />
+    <Property Name="Tags" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="AuthorsList" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="upsize_ts" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="Publisher" Relationship="iBooksModel.Books_FK00" FromRole="Books" ToRole="Publishers" />
+    <NavigationProperty Name="Authors" Relationship="iBooksModel.BooksAuthors" FromRole="Books" ToRole="Authors" />
+  </EntityType>
+  <EntityType Name="Publisher">
+    <Key>
+      <PropertyRef Name="PublisherID" />
+    </Key>
+    <Property Name="PublisherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="Address" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="City" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="Country" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="Website" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Books" Relationship="iBooksModel.Books_FK00" FromRole="Publishers" ToRole="Books" />
+  </EntityType>
+  <Association Name="Books_FK00">
+    <End Role="Publishers" Type="iBooksModel.Publisher" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Books" Type="iBooksModel.Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Publishers">
+        <PropertyRef Name="PublisherID" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="PublisherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BooksAuthors">
+    <End Role="Authors" Type="iBooksModel.Author" Multiplicity="*" />
+    <End Role="Books" Type="iBooksModel.Book" Multiplicity="*" />
+  </Association>
+</Schema>

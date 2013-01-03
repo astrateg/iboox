@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="iBooksModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="iBooksModelStoreContainer">
+    <EntitySet Name="Authors" EntityType="iBooksModel.Store.Authors" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Books" EntityType="iBooksModel.Store.Books" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BooksAuthors" EntityType="iBooksModel.Store.BooksAuthors" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Publishers" EntityType="iBooksModel.Store.Publishers" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="Books_FK00" Association="iBooksModel.Store.Books_FK00">
+      <End Role="Publishers" EntitySet="Publishers" />
+      <End Role="Books" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="BooksAuthors_FK00" Association="iBooksModel.Store.BooksAuthors_FK00">
+      <End Role="Authors" EntitySet="Authors" />
+      <End Role="BooksAuthors" EntitySet="BooksAuthors" />
+    </AssociationSet>
+    <AssociationSet Name="BooksAuthors_FK01" Association="iBooksModel.Store.BooksAuthors_FK01">
+      <End Role="Books" EntitySet="Books" />
+      <End Role="BooksAuthors" EntitySet="BooksAuthors" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Authors">
+    <Key>
+      <PropertyRef Name="AuthorID" />
+    </Key>
+    <Property Name="AuthorID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="MiddleName" Type="nvarchar" MaxLength="20" />
+    <Property Name="FIO" Type="nvarchar" MaxLength="70" />
+  </EntityType>
+  <EntityType Name="Books">
+    <Key>
+      <PropertyRef Name="BookID" />
+    </Key>
+    <Property Name="BookID" Type="int" Nullable="false" />
+    <Property Name="ISBN" Type="nvarchar" MaxLength="17" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Series" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="Pages" Type="smallint" />
+    <Property Name="PublicationYear" Type="smallint" />
+    <Property Name="Size" Type="nvarchar" MaxLength="10" />
+    <Property Name="Cover" Type="nvarchar" MaxLength="255" />
+    <Property Name="Cover2" Type="int" />
+    <Property Name="Theme" Type="nvarchar" MaxLength="20" />
+    <Property Name="Annotation" Type="ntext" />
+    <Property Name="PublisherID" Type="int" />
+    <Property Name="Tags" Type="nvarchar" MaxLength="255" />
+    <Property Name="AuthorsList" Type="nvarchar" MaxLength="255" />
+    <Property Name="upsize_ts" Type="timestamp" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="BooksAuthors">
+    <Key>
+      <PropertyRef Name="BookID" />
+      <PropertyRef Name="AuthorID" />
+    </Key>
+    <Property Name="BookID" Type="int" Nullable="false" />
+    <Property Name="AuthorID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Publishers">
+    <Key>
+      <PropertyRef Name="PublisherID" />
+    </Key>
+    <Property Name="PublisherID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="nvarchar" MaxLength="255" />
+    <Property Name="Address" Type="nvarchar" MaxLength="255" />
+    <Property Name="City" Type="nvarchar" MaxLength="255" />
+    <Property Name="Country" Type="nvarchar" MaxLength="255" />
+    <Property Name="Website" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <Association Name="Books_FK00">
+    <End Role="Publishers" Type="iBooksModel.Store.Publishers" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Books" Type="iBooksModel.Store.Books" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Publishers">
+        <PropertyRef Name="PublisherID" />
+      </Principal>
+      <Dependent Role="Books">
+        <PropertyRef Name="PublisherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BooksAuthors_FK00">
+    <End Role="Authors" Type="iBooksModel.Store.Authors" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="BooksAuthors" Type="iBooksModel.Store.BooksAuthors" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Authors">
+        <PropertyRef Name="AuthorID" />
+      </Principal>
+      <Dependent Role="BooksAuthors">
+        <PropertyRef Name="AuthorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BooksAuthors_FK01">
+    <End Role="Books" Type="iBooksModel.Store.Books" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="BooksAuthors" Type="iBooksModel.Store.BooksAuthors" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Books">
+        <PropertyRef Name="BookID" />
+      </Principal>
+      <Dependent Role="BooksAuthors">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetSeriesList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetThemesList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+</Schema>

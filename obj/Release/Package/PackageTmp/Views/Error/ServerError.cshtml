@@ -1,0 +1,9 @@
+﻿@{
+    ViewBag.Title = "ServerError";
+}
+
+<h1 class="title">Ошибка 500. @ViewBag.Title</h1>
+@if (ViewBag.Exception != null)
+{
+    @ViewBag.Exception.Message
+}

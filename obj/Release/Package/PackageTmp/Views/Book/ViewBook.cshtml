@@ -1,0 +1,136 @@
+﻿@model iBoox.Models.BookViewModel
+
+@{
+	ViewBag.Title = Model.Book.Title;
+}
+
+@{
+	// Если это Шпаргалка, то делаем меньше min-height для общего div
+	bool isNotes = Model.Book.SeriesID == "notes";
+	string heightImage = isNotes ? "225" : "300";
+	string heightDiv = isNotes ? "250px;" : "350px;";
+}
+
+<div id="book-@Model.Book.BookID" class="book" style="min-height: @heightDiv">
+	<div style="width: 300px; float: left;">
+		<img id="cover" src="/content/books/covers/300/@(Model.Book.ISBN).jpg" title="@Model.Book.Title" alt="@Model.Book.Title" width="300" height="@heightImage" />
+
+		@if (Model.Book.ISBN != Model.SecondISBN)
+		{
+			<script type="text/javascript" src="/content/scripts/switch-cover.js"></script>
+			<div class="pager" style="text-align: center;">
+				<a href="#" id="switch-cover"   isbn1="@Model.Book.ISBN" isbn2="@Model.SecondISBN" 
+												cover1="@Model.Book.Cover.CoverFull" cover2="@Model.SecondCover" 
+												style="padding: 5px; border: 1px solid silver;">Вторая обложка</a>
+			</div>
+		}
+	</div>
+
+	<div style="margin-left: 320px;">
+		<h1 class="title">@ViewBag.Title</h1>
+		<p>@Model.Book.AuthorsList</p>
+		@{
+			var cookie_rate = Request.Cookies["rate_" + Model.Book.BookID.ToString()];
+			var mark = "0";
+			if (cookie_rate != null) 
+			{
+				mark = cookie_rate.Value;
+			}
+		}
+		<div data-mark="@mark" data-id="@Model.Book.BookID" data-votes="@Model.Book.Votes" data-double-avg="@Model.Book.RatingDecAvg" data-int-avg="@Model.Book.RatingIntAvg" class="rate_widget vote">
+			<div class="star_1 ratings_stars"></div>
+			<div class="star_2 ratings_stars"></div>
+			<div class="star_3 ratings_stars"></div>
+			<div class="star_4 ratings_stars"></div>
+			<div class="star_5 ratings_stars"></div>
+		</div>
+		<div class="rate_info vote">
+			<div class="total_votes" id="total_votes">vote data</div>
+		</div>
+
+		<ul>
+			<li><b>ISBN:</b> <span id="isbn">@Model.Book.ISBN</span></li>
+			<li><b>Год издания:</b> @Model.Book.PublicationYear</li>
+			<li><b>Страниц:</b> @Model.Book.Pages</li>
+		</ul>
+
+		<div>
+			<div id="addition">
+				<a href="#" >Дополнительные характеристики&nbsp;<img id="addition_token" src="/content/images/centerstage/img05.gif" /></a>
+
+			</div>
+			<div class="hidden" >
+				<div class="addition_title">Формат:</div>
+				<div class="addition_content">@Model.Book.Size</div>
+			</div>
+			<div class="hidden" >
+				<div class="addition_title">Переплет:</div>
+				<div class="addition_content"><span id="cover_type">@Model.Book.Cover.CoverFull</span></div>
+			</div>
+			<div class="hidden" >
+				<div class="addition_title">Серия:</div>
+				<div class="addition_content">@Model.Book.Series.SeriesFull</div>
+			</div>
+			<div class="hidden" >
+				<div class="addition_title">Тематика:</div>
+				<div class="addition_content">@Model.Book.Theme.ThemeFull</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<br />
+<p>@Model.Book.Annotation</p>
+
+<div style="margin-top: 10px;">
+	@{ Author lastAuthor = Model.Book.Authors.Last(); }
+
+	<h3>
+		@foreach (Author author in Model.Book.Authors)
+		{
+			@Html.ActionLink(author.LastName + " " + author.FirstName, "Index", new { authorID = author.AuthorID })
+		
+			if (author != lastAuthor)
+			{
+				<span>&nbsp;|&nbsp;</span>
+			}
+		}
+	</h3>
+</div>
+
+
+<h3 style="padding-top: 20px;">Комментарии</h3>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <form method="post" action="#" class="comment-create">
+	    <input type="hidden" id="bookId" name="bookId" value="@Model.Book.BookID" />
+	    <input type="hidden" id="commentId" name="commentId" value="" />
+	    <p class="field input">
+		    <label for="body">Введите свой комментарий:</label><br />
+		    @Html.TextArea("comment-body", String.Empty)
+	    </p>
+	    <div><button type="submit" id="comment-create-button">Добавить комментарий</button></div>
+    </form>
+}
+else
+{
+    <div>Чтобы оставлять комментарии, @Html.ActionLink("зарегистрируйтесь", "Register", "Account") и @Html.ActionLink("зайдите", "LogOn", "Account") на сайт под своим аккаунтом.</div>
+}
+
+<div id="book-comments">
+    @foreach (BookComment comment in Model.Book.BookComments)
+    {
+        Html.RenderPartial("~/Views/Shared/Book/BookCommentItem.cshtml", comment);
+    }
+</div>
+
+@section Sidebar {
+	@{Html.RenderPartial("~/Views/Shared/Book/BookSidebar.cshtml");}
+}
+
+@section Scripts{
+	<script type="text/javascript" src="/content/scripts/rating.js"></script>
+	<script type="text/javascript" src="/content/scripts/hidden.js"></script>
+	<script type="text/javascript" src="/content/scripts/comment.js"></script>
+}

@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="iBooxModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="iBooxEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Authors" EntityType="iBooxModel.Author" />
+    <EntitySet Name="Publishers" EntityType="iBooxModel.Publisher" />
+    <EntitySet Name="Series" EntityType="iBooxModel.Series" />
+    <EntitySet Name="Themes" EntityType="iBooxModel.Theme" />
+    <FunctionImport Name="GetSeriesList" EntitySet="Series" ReturnType="Collection(iBooxModel.Series)" />
+    <FunctionImport Name="GetThemesList" EntitySet="Themes" ReturnType="Collection(iBooxModel.Theme)" />
+    <FunctionImport Name="GetAuthorsList" EntitySet="Authors" ReturnType="Collection(iBooxModel.Author)" />
+    <FunctionImport Name="GetTagsList" ReturnType="Collection(String)" />
+    <FunctionImport Name="GetTag">
+      <Parameter Name="TagID" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Books" EntityType="iBooxModel.Book" />
+    <EntitySet Name="Covers" EntityType="iBooxModel.Cover" />
+    <EntitySet Name="Tags" EntityType="iBooxModel.Tag" />
+    <AssociationSet Name="Books_Covers" Association="iBooxModel.Books_Covers">
+      <End Role="Cover" EntitySet="Covers" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="Books_Publishers" Association="iBooxModel.Books_Publishers">
+      <End Role="Publisher" EntitySet="Publishers" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="Books_Series" Association="iBooxModel.Books_Series">
+      <End Role="Series" EntitySet="Series" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="Books_Themes" Association="iBooxModel.Books_Themes">
+      <End Role="Theme" EntitySet="Themes" />
+      <End Role="Book" EntitySet="Books" />
+    </AssociationSet>
+    <AssociationSet Name="BooksAuthors" Association="iBooxModel.BooksAuthors">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="Author" EntitySet="Authors" />
+    </AssociationSet>
+    <EntitySet Name="BookComments" EntityType="iBooxModel.BookComment" />
+    <AssociationSet Name="Books_Comments" Association="iBooxModel.Books_Comments">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="BookComment" EntitySet="BookComments" />
+    </AssociationSet>
+    <EntitySet Name="BookVotes" EntityType="iBooxModel.BookVote" />
+    <AssociationSet Name="Books_Votes" Association="iBooxModel.Books_Votes">
+      <End Role="Book" EntitySet="Books" />
+      <End Role="BookVote" EntitySet="BookVotes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Author">
+    <Key>
+      <PropertyRef Name="AuthorID" />
+    </Key>
+    <Property Name="AuthorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="MiddleName" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="FIO" Type="String" MaxLength="70" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Books" Relationship="iBooxModel.BooksAuthors" FromRole="Author" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Publisher">
+    <Key>
+      <PropertyRef Name="PublisherID" />
+    </Key>
+    <Property Name="PublisherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Title" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="Address" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="City" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="Country" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="Website" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Books" Relationship="iBooxModel.Books_Publishers" FromRole="Publisher" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Series">
+    <Key>
+      <PropertyRef Name="SeriesID" />
+    </Key>
+    <Property Name="SeriesID" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="SeriesFull" Type="String" MaxLength="50" Unicode="true" FixedLength="false" Nullable="false" />
+    <NavigationProperty Name="Books" Relationship="iBooxModel.Books_Series" FromRole="Series" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Theme">
+    <Key>
+      <PropertyRef Name="ThemeID" />
+    </Key>
+    <Property Name="ThemeID" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="ThemeFull" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Books" Relationship="iBooxModel.Books_Themes" FromRole="Theme" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Book">
+    <Key>
+      <PropertyRef Name="BookID" />
+    </Key>
+    <Property Type="Int32" Name="BookID" Nullable="false" />
+    <Property Type="String" Name="ISBN" Nullable="false" MaxLength="17" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Title" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="SeriesID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="Int16" Name="Pages" Nullable="false" />
+    <Property Type="Int16" Name="PublicationYear" Nullable="false" />
+    <Property Type="String" Name="Size" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="CoverID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="Cover2" Nullable="false" />
+    <Property Type="String" Name="ThemeID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Annotation" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="PublisherID" Nullable="false" />
+    <Property Type="String" Name="Tags" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="AuthorsList" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="Votes" Nullable="false" />
+    <Property Type="Int32" Name="TotalRating" Nullable="false" />
+    <Property Type="Binary" Name="upsize_ts" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <NavigationProperty Name="Cover" Relationship="iBooxModel.Books_Covers" FromRole="Book" ToRole="Cover" />
+    <NavigationProperty Name="Publisher" Relationship="iBooxModel.Books_Publishers" FromRole="Book" ToRole="Publisher" />
+    <NavigationProperty Name="Series" Relationship="iBooxModel.Books_Series" FromRole="Book" ToRole="Series" />
+    <NavigationProperty Name="Theme" Relationship="iBooxModel.Books_Themes" FromRole="Book" ToRole="Theme" />
+    <NavigationProperty Name="Authors" Relationship="iBooxModel.BooksAuthors" FromRole="Book" ToRole="Author" />
+    <NavigationProperty Name="BookComments" Relationship="iBooxModel.Books_Comments" FromRole="Book" ToRole="BookComment" />
+    <NavigationProperty Name="BookVotes" Relationship="iBooxModel.Books_Votes" FromRole="Book" ToRole="BookVote" />
+  </EntityType>
+  <EntityType Name="Cover">
+    <Key>
+      <PropertyRef Name="CoverID" />
+    </Key>
+    <Property Type="String" Name="CoverID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="CoverFull" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Books" Relationship="iBooxModel.Books_Covers" FromRole="Cover" ToRole="Book" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="TagID" />
+    </Key>
+    <Property Type="Int32" Name="TagID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="Title" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="Count" />
+  </EntityType>
+  <Association Name="Books_Covers">
+    <End Type="iBooxModel.Cover" Role="Cover" Multiplicity="1" />
+    <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cover">
+        <PropertyRef Name="CoverID" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="CoverID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Books_Publishers">
+    <End Type="iBooxModel.Publisher" Role="Publisher" Multiplicity="1" />
+    <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Publisher">
+        <PropertyRef Name="PublisherID" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="PublisherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Books_Series">
+    <End Type="iBooxModel.Series" Role="Series" Multiplicity="1" />
+    <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Series">
+        <PropertyRef Name="SeriesID" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="SeriesID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Books_Themes">
+    <End Type="iBooxModel.Theme" Role="Theme" Multiplicity="1" />
+    <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Theme">
+        <PropertyRef Name="ThemeID" />
+      </Principal>
+      <Dependent Role="Book">
+        <PropertyRef Name="ThemeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BooksAuthors">
+    <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+    <End Type="iBooxModel.Author" Role="Author" Multiplicity="*" />
+  </Association>
+  <EntityType Name="BookComment">
+    <Key>
+      <PropertyRef Name="BookCommentID" />
+    </Key>
+    <Property Type="Int32" Name="BookCommentID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="DateTime" Name="AddedDate" Nullable="false" />
+    <Property Type="String" Name="AddedBy" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="AddedByIP" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="BookID" Nullable="false" />
+    <Property Type="String" Name="Body" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Book" Relationship="iBooxModel.Books_Comments" FromRole="BookComment" ToRole="Book" />
+  </EntityType>
+  <Association Name="Books_Comments">
+    <End Type="iBooxModel.Book" Role="Book" Multiplicity="1" />
+    <End Type="iBooxModel.BookComment" Role="BookComment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="BookID" />
+      </Principal>
+      <Dependent Role="BookComment">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="BookVote">
+    <Key>
+      <PropertyRef Name="VoteID" />
+    </Key>
+    <Property Type="Int32" Name="VoteID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="BookID" Nullable="false" />
+    <Property Type="String" Name="AddedBy" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="AddedByIP" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Type="DateTime" Name="AddedDate" Nullable="false" />
+    <Property Type="Int32" Name="AddedVote" Nullable="false" />
+    <NavigationProperty Name="Book" Relationship="iBooxModel.Books_Votes" FromRole="BookVote" ToRole="Book" />
+  </EntityType>
+  <Association Name="Books_Votes">
+    <End Type="iBooxModel.Book" Role="Book" Multiplicity="1" />
+    <End Type="iBooxModel.BookVote" Role="BookVote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="BookID" />
+      </Principal>
+      <Dependent Role="BookVote">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

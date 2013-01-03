@@ -1,0 +1,40 @@
+﻿@model AccountViewModel
+
+@{
+    ViewBag.Title = "Редактирование аккаунта";
+}
+
+<h1 class="title">@ViewBag.Title</h1>
+
+@using (Html.BeginForm())
+{
+    <!-- The hidden control manages the username -->
+    @Html.Hidden("id")
+
+    <!-- Shows detailed information about member from MembershipUser object -->
+    <p><b>UserName:</b>@Model.Account.UserName</p>
+    <p><b>E-Mail:</b> @Model.Account.Email</p>
+    <p><b>Registered:</b> @Model.Account.CreationDate.ToLocalTime()</p>
+    <p><b>Last Login:</b> @Model.Account.LastLoginDate.ToLocalTime()</p>
+    <p><b>Last Activity:</b> @Model.Account.LastActivityDate.ToLocalTime()</p>
+    <p><b>Online Now:</b> @Html.CheckBox("onlineNow", Model.Account.IsOnline, new { disabled = "true" })</p>
+    <p><b>Approved:</b> @Html.CheckBox("approved", Model.Account.IsApproved)</p>
+    <p><b>Locked Out:</b> @Html.CheckBox("lockedOut", Model.Account.IsLockedOut, new { disabled = "true" })</p>
+    <hr />
+
+    <!-- This portion allows you to actually edit the roles of the user -->
+    <h2>Выбор ролей для аккаунта</h2>
+    <ul>
+        @foreach (string role in Model.AccountRoles){
+	        <li>
+                @Html.CheckBox("role." + role, Roles.IsUserInRole(Model.Account.UserName, role))
+	            <label for="role.@role">@role</label>
+             </li>
+        }
+    </ul>
+
+    <p>
+	    <button type="submit" id="user-editUser-button">Обновить</button>
+	    <button type="button" onclick="location.href='/Account/ManageAccounts'" style="margin-left: 2em;">Назад</button>
+    </p>
+}

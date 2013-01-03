@@ -1,0 +1,11 @@
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\bin\iBoox.dll
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\bin\iBoox.pdb
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\bin\EntityFramework.dll
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\bin\Recaptcha.dll
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\bin\EntityFramework.xml
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\bin\Recaptcha.pdb
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\obj\Release\iBoox.dll
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\obj\Release\iBoox.pdb
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\bin\Elmah.dll
+C:\Users\Alex\Documents\Visual Studio 2010\Projects\iBoox\iBoox\bin\System.Data.SqlServerCe.dll

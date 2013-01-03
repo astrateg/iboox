@@ -1,0 +1,64 @@
+﻿@model iBoox.Models.AccountsListViewModel
+
+@{
+    ViewBag.Title = "Управление аккаунтами";
+}
+
+<h1 class="title">@ViewBag.Title</h1>
+
+@using (Html.BeginForm())
+{
+    <p><b>Зарегистрировано: </b>@Model.RegisteredUsers</p>
+    <p><b>Онлайн: </b>@Model.UsersOnlineNow</p>
+    <hr />
+
+    <!-- account search options -->
+    <p>Поиск: 
+        @Html.TextBoxFor(m => m.SearchInput)&nbsp;&nbsp; 
+        @Html.DropDownListFor(m => m.SearchOptionList, Model.SearchOptionList)&nbsp;&nbsp;
+        <button type="submit" id="account-manageAccount-button" style="height:28px">Search</button>
+    </p>
+
+    <table cellpadding="2" cellspacing="0" align="left" summary="account Grid" border="1">
+        <thead>
+            <tr style="font-weight:bold; background-color:#A8C3CB;">
+	            <th align="center">Account Name</th>
+	            <th align="center">E-Mail</th>
+	            <th align="center">Created</th>
+	            <th align="center">Last Used</th>
+	            <th align="center">Approved</th>
+	            <th>&nbsp;</th>
+	            <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (MembershipUser account in Model.Accounts)
+            {
+                <tr  id="account-@account.UserName">
+	                <td>@account.UserName</td>
+	                <td>@account.Email</td>
+	                <td>@account.CreationDate.ToLocalTime()</td>
+	                <td>@account.LastActivityDate.ToLocalTime()</td>
+	                <td align="center">@Html.CheckBox("approved", account.IsApproved, new { disabled = "true" })</td>
+	                <td>
+                        <a href="EditAccount?id=@account.UserName">
+                            <img border="0" alt="Edit account" src="/content/images/EditSymbol.png" title="Modify account" align="middle"/>
+                        </a>
+                    </td>
+	                <td align="center">
+                        @if (@account.UserName.ToLower() != @User.Identity.Name.ToLower())
+                        {
+                            <a class="delete-account-button" href="#" id="@account.UserName">
+                                <img border="0" alt="Delete account"  src="/content/images/DeleteSymbol.png" title="Delete account" align="middle"/>
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts{
+    <script type="text/javascript" src="/content/scripts/manage-accounts.js"></script>
+}

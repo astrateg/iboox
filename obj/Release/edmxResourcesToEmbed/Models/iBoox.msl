@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="iBooxModelStoreContainer" CdmEntityContainer="iBooxEntities">
+    <EntitySetMapping Name="Authors">
+      <EntityTypeMapping TypeName="iBooxModel.Author">
+        <MappingFragment StoreEntitySet="Authors">
+          <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="FIO" ColumnName="FIO" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Publishers">
+      <EntityTypeMapping TypeName="iBooxModel.Publisher">
+        <MappingFragment StoreEntitySet="Publishers">
+          <ScalarProperty Name="PublisherID" ColumnName="PublisherID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="Website" ColumnName="Website" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Series">
+      <EntityTypeMapping TypeName="iBooxModel.Series">
+        <MappingFragment StoreEntitySet="Series">
+          <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+          <ScalarProperty Name="SeriesFull" ColumnName="SeriesFull" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Themes">
+      <EntityTypeMapping TypeName="iBooxModel.Theme">
+        <MappingFragment StoreEntitySet="Themes">
+          <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
+          <ScalarProperty Name="ThemeFull" ColumnName="ThemeFull" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetSeriesList" FunctionName="iBooxModel.Store.GetSeriesList" />
+    <FunctionImportMapping FunctionImportName="GetThemesList" FunctionName="iBooxModel.Store.GetThemesList" />
+    <FunctionImportMapping FunctionImportName="GetAuthorsList" FunctionName="iBooxModel.Store.GetAuthorsList" />
+    <FunctionImportMapping FunctionImportName="GetTagsList" FunctionName="iBooxModel.Store.GetTagsList" />
+    <FunctionImportMapping FunctionImportName="GetTag" FunctionName="iBooxModel.Store.GetTag" />
+    <EntitySetMapping Name="Books">
+      <EntityTypeMapping TypeName="iBooxModel.Book">
+        <MappingFragment StoreEntitySet="Books">
+          <ScalarProperty Name="upsize_ts" ColumnName="upsize_ts" />
+          <ScalarProperty Name="TotalRating" ColumnName="TotalRating" />
+          <ScalarProperty Name="Votes" ColumnName="Votes" />
+          <ScalarProperty Name="AuthorsList" ColumnName="AuthorsList" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="PublisherID" ColumnName="PublisherID" />
+          <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+          <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
+          <ScalarProperty Name="Cover2" ColumnName="Cover2" />
+          <ScalarProperty Name="CoverID" ColumnName="CoverID" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="PublicationYear" ColumnName="PublicationYear" />
+          <ScalarProperty Name="Pages" ColumnName="Pages" />
+          <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+          <ScalarProperty Name="BookID" ColumnName="BookID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Covers">
+      <EntityTypeMapping TypeName="iBooxModel.Cover">
+        <MappingFragment StoreEntitySet="Covers">
+          <ScalarProperty Name="CoverFull" ColumnName="CoverFull" />
+          <ScalarProperty Name="CoverID" ColumnName="CoverID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tags">
+      <EntityTypeMapping TypeName="iBooxModel.Tag">
+        <MappingFragment StoreEntitySet="Tags">
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="TagID" ColumnName="TagID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="BooksAuthors" TypeName="iBooxModel.BooksAuthors" StoreEntitySet="BooksAuthors">
+      <EndProperty Name="Author">
+        <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+      </EndProperty>
+      <EndProperty Name="Book">
+        <ScalarProperty Name="BookID" ColumnName="BookID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="BookComments">
+      <EntityTypeMapping TypeName="iBooxModel.BookComment">
+        <MappingFragment StoreEntitySet="BookComments">
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="BookID" ColumnName="BookID" />
+          <ScalarProperty Name="AddedByIP" ColumnName="AddedByIP" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+          <ScalarProperty Name="BookCommentID" ColumnName="BookCommentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BookVotes">
+      <EntityTypeMapping TypeName="iBooxModel.BookVote">
+        <MappingFragment StoreEntitySet="BookVotes">
+          <ScalarProperty Name="AddedVote" ColumnName="AddedVote" />
+          <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+          <ScalarProperty Name="AddedByIP" ColumnName="AddedByIP" />
+          <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+          <ScalarProperty Name="BookID" ColumnName="BookID" />
+          <ScalarProperty Name="VoteID" ColumnName="VoteID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

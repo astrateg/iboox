@@ -1,0 +1,30 @@
+﻿<div id="tags" class="boxed">
+	<h2 class="title">Категория</h2>
+	<div class="content">
+		@{Html.RenderAction("TagsCloud", "Nav");}
+	</div>
+</div>
+
+<div id="themes" class="boxed">
+	<h2 class="title">Тематика</h2>
+	<div class="content">
+		<ul class="list">
+			@foreach (iBoox.Models.Theme theme in ViewBag.Themes)
+			{
+				<li>@Html.ActionLink(theme.ThemeFull, "Index", new { controller = "Book", themeID = theme.ThemeID })</li>
+			}
+		</ul>
+	</div>
+</div>
+
+<div id="series" class="boxed">
+	<h2 class="title">Серия</h2>
+	<div class="content">
+		<ul class="list">
+			@foreach (iBoox.Models.Series series in ViewBag.Series)
+			{
+				<li>@Html.ActionLink(series.SeriesFull, "Index", new { controller = "Book", seriesID = series.SeriesID })</li>
+			}
+		</ul>
+	</div>
+</div>

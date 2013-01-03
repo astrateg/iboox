@@ -1,0 +1,38 @@
+﻿@model iBoox.Models.BooksListViewModel
+@using iBoox.Helpers
+
+<h1 class="title">@ViewBag.Title</h1>
+
+@if (Model.Books.Count() > 0)
+{
+    <div class="pager" style="border-bottom: 2px solid silver;">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
+    </div>
+    
+    foreach (var book in Model.Books)
+    {
+        Book lastBook = Model.Books.Last();
+        string border = "";
+        if (book != lastBook)
+        {
+            border = "border-bottom: 1px solid silver;";
+        }
+    
+        <div id="book-@book.BookID" class="book" style="min-height: 150px; clear: both; padding-top: 1em; @border">
+            @{Html.RenderPartial("~/Views/Shared/Book/BookItem.cshtml", book);}
+        </div>
+    }
+
+    <div class="pager" style="border-top: 2px solid silver;">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x }))
+    </div>
+}
+
+
+@section Sidebar {
+    @{Html.RenderPartial("~/Views/Shared/Book/BookSidebar.cshtml");}
+}
+
+@section Scripts{
+    <script type="text/javascript" src="/content/scripts/rating.js"></script>
+}

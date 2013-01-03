@@ -1,0 +1,26 @@
+﻿@model iBoox.Models.BookComment
+
+<div id="comment-@Model.BookCommentID" class="comment">
+	<div class="comment-header">
+		Комментарий опубликовал <span class="name">@Model.AddedBy</span>
+
+@*		@{var timeSpan = (DateTime.Now - Model.AddedDate).ToLongString();}
+        <div style="float: right;">
+             @timeSpan назад
+        </div>
+*@		
+        <div style="float: right;">
+             @Model.AddedDate.ToLongDateString()&nbsp;
+             @Model.AddedDate.ToShortTimeString()
+        </div>
+	</div>
+    <blockquote class="body">@Model.Body</blockquote>
+	
+    @if (User.IsInRole("Admin") || (User.Identity.Name == @Model.AddedBy))
+    {
+	    <div>
+		    <a href="#edit" class="edit-comment" id="edit-comment-@Model.BookCommentID">Изменить</a>&nbsp;|&nbsp;
+		    <a href="#remove" class="remove-comment" id="remove-comment-@Model.BookCommentID">Удалить</a>
+	    </div>
+    }
+</div>

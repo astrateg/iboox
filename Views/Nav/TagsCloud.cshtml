@@ -1,0 +1,10 @@
+﻿@model TagsListViewModel
+
+@{
+    Layout = null;
+}
+
+@foreach (Tag tag in Model.Tags)
+{
+    @Html.TagLink(tag, Model.TagsMaxCount, x => Url.Action("Index", "Book", new { tagID = x }));
+}

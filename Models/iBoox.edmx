@@ -1,0 +1,668 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="iBooxModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="iBooxModelStoreContainer">
+          <EntitySet Name="Authors" EntityType="iBooxModel.Store.Authors" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="BookComments" EntityType="iBooxModel.Store.BookComments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Books" EntityType="iBooxModel.Store.Books" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="BooksAuthors" EntityType="iBooxModel.Store.BooksAuthors" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="BookVotes" EntityType="iBooxModel.Store.BookVotes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Covers" EntityType="iBooxModel.Store.Covers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Publishers" EntityType="iBooxModel.Store.Publishers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Series" EntityType="iBooxModel.Store.Series" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Tags" EntityType="iBooxModel.Store.Tags" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Themes" EntityType="iBooxModel.Store.Themes" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="Books_Authors" Association="iBooxModel.Store.Books_Authors">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BooksAuthors" EntitySet="BooksAuthors" />
+          </AssociationSet>
+          <AssociationSet Name="Books_Comments" Association="iBooxModel.Store.Books_Comments">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookComments" EntitySet="BookComments" />
+          </AssociationSet>
+          <AssociationSet Name="Books_Covers" Association="iBooxModel.Store.Books_Covers">
+            <End Role="Covers" EntitySet="Covers" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="Books_Publishers" Association="iBooxModel.Store.Books_Publishers">
+            <End Role="Publishers" EntitySet="Publishers" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="Books_Series" Association="iBooxModel.Store.Books_Series">
+            <End Role="Series" EntitySet="Series" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="Books_Themes" Association="iBooxModel.Store.Books_Themes">
+            <End Role="Themes" EntitySet="Themes" />
+            <End Role="Books" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="Books_Votes" Association="iBooxModel.Store.Books_Votes">
+            <End Role="Books" EntitySet="Books" />
+            <End Role="BookVotes" EntitySet="BookVotes" />
+          </AssociationSet>
+          <AssociationSet Name="BooksAuthors_FK00" Association="iBooxModel.Store.BooksAuthors_FK00">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="BooksAuthors" EntitySet="BooksAuthors" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="AuthorID" />
+          </Key>
+          <Property Name="AuthorID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="FirstName" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="20" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="70" />
+        </EntityType>
+        <EntityType Name="BookComments">
+          <Key>
+            <PropertyRef Name="BookCommentID" />
+          </Key>
+          <Property Name="BookCommentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AddedDate" Type="datetime" Nullable="false" />
+          <Property Name="AddedBy" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="AddedByIP" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="BookID" Type="int" Nullable="false" />
+          <Property Name="Body" Type="ntext" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Books">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Name="BookID" Type="int" Nullable="false" />
+          <Property Name="ISBN" Type="nvarchar" Nullable="false" MaxLength="17" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="SeriesID" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Pages" Type="smallint" Nullable="false" />
+          <Property Name="PublicationYear" Type="smallint" Nullable="false" />
+          <Property Name="Size" Type="nvarchar" Nullable="false" MaxLength="10" />
+          <Property Name="CoverID" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Cover2" Type="int" Nullable="false" />
+          <Property Name="ThemeID" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Annotation" Type="ntext" />
+          <Property Name="PublisherID" Type="int" Nullable="false" />
+          <Property Name="Tags" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="AuthorsList" Type="nvarchar" Nullable="false" MaxLength="255" />
+          <Property Name="Votes" Type="int" Nullable="false" />
+          <Property Name="TotalRating" Type="int" Nullable="false" />
+          <Property Name="upsize_ts" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="BooksAuthors">
+          <Key>
+            <PropertyRef Name="BookID" />
+            <PropertyRef Name="AuthorID" />
+          </Key>
+          <Property Name="BookID" Type="int" Nullable="false" />
+          <Property Name="AuthorID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BookVotes">
+          <Key>
+            <PropertyRef Name="VoteID" />
+          </Key>
+          <Property Name="VoteID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BookID" Type="int" Nullable="false" />
+          <Property Name="AddedBy" Type="nvarchar" MaxLength="256" />
+          <Property Name="AddedByIP" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="AddedDate" Type="datetime" Nullable="false" />
+          <Property Name="AddedVote" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Covers">
+          <Key>
+            <PropertyRef Name="CoverID" />
+          </Key>
+          <Property Name="CoverID" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="CoverFull" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Publishers">
+          <Key>
+            <PropertyRef Name="PublisherID" />
+          </Key>
+          <Property Name="PublisherID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" MaxLength="255" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="City" Type="nvarchar" MaxLength="255" />
+          <Property Name="Country" Type="nvarchar" MaxLength="255" />
+          <Property Name="Website" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Series">
+          <Key>
+            <PropertyRef Name="SeriesID" />
+          </Key>
+          <Property Name="SeriesID" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="SeriesFull" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="TagID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="Count" Type="int" />
+        </EntityType>
+        <EntityType Name="Themes">
+          <Key>
+            <PropertyRef Name="ThemeID" />
+          </Key>
+          <Property Name="ThemeID" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="ThemeFull" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="Books_Authors">
+          <End Role="Books" Type="iBooxModel.Store.Books" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BooksAuthors" Type="iBooxModel.Store.BooksAuthors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="BooksAuthors">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_Comments">
+          <End Role="Books" Type="iBooxModel.Store.Books" Multiplicity="1" />
+          <End Role="BookComments" Type="iBooxModel.Store.BookComments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="BookComments">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_Covers">
+          <End Role="Covers" Type="iBooxModel.Store.Covers" Multiplicity="1" />
+          <End Role="Books" Type="iBooxModel.Store.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Covers">
+              <PropertyRef Name="CoverID" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="CoverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_Publishers">
+          <End Role="Publishers" Type="iBooxModel.Store.Publishers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Books" Type="iBooxModel.Store.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publishers">
+              <PropertyRef Name="PublisherID" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="PublisherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_Series">
+          <End Role="Series" Type="iBooxModel.Store.Series" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Books" Type="iBooxModel.Store.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Series">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_Themes">
+          <End Role="Themes" Type="iBooxModel.Store.Themes" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Books" Type="iBooxModel.Store.Books" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Themes">
+              <PropertyRef Name="ThemeID" />
+            </Principal>
+            <Dependent Role="Books">
+              <PropertyRef Name="ThemeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_Votes">
+          <End Role="Books" Type="iBooxModel.Store.Books" Multiplicity="1" />
+          <End Role="BookVotes" Type="iBooxModel.Store.BookVotes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Books">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="BookVotes">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BooksAuthors_FK00">
+          <End Role="Authors" Type="iBooxModel.Store.Authors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="BooksAuthors" Type="iBooxModel.Store.BooksAuthors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="AuthorID" />
+            </Principal>
+            <Dependent Role="BooksAuthors">
+              <PropertyRef Name="AuthorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetAuthorsList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetSeriesList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetTag" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TagID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTagsList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetThemesList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="iBooxModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="iBooxEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Authors" EntityType="iBooxModel.Author" />
+          <EntitySet Name="Publishers" EntityType="iBooxModel.Publisher" />
+          <EntitySet Name="Series" EntityType="iBooxModel.Series" />
+          <EntitySet Name="Themes" EntityType="iBooxModel.Theme" />
+          <FunctionImport Name="GetSeriesList" EntitySet="Series" ReturnType="Collection(iBooxModel.Series)" />
+          <FunctionImport Name="GetThemesList" EntitySet="Themes" ReturnType="Collection(iBooxModel.Theme)" />
+          <FunctionImport Name="GetAuthorsList" EntitySet="Authors" ReturnType="Collection(iBooxModel.Author)" />
+          <FunctionImport Name="GetTagsList" ReturnType="Collection(String)" />
+          <FunctionImport Name="GetTag">
+          <Parameter Name="TagID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Books" EntityType="iBooxModel.Book" />
+          <EntitySet Name="Covers" EntityType="iBooxModel.Cover" />
+          <EntitySet Name="Tags" EntityType="iBooxModel.Tag" />
+          <AssociationSet Name="Books_Covers" Association="iBooxModel.Books_Covers">
+            <End Role="Cover" EntitySet="Covers" />
+            <End Role="Book" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="Books_Publishers" Association="iBooxModel.Books_Publishers">
+            <End Role="Publisher" EntitySet="Publishers" />
+            <End Role="Book" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="Books_Series" Association="iBooxModel.Books_Series">
+            <End Role="Series" EntitySet="Series" />
+            <End Role="Book" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="Books_Themes" Association="iBooxModel.Books_Themes">
+            <End Role="Theme" EntitySet="Themes" />
+            <End Role="Book" EntitySet="Books" />
+          </AssociationSet>
+          <AssociationSet Name="BooksAuthors" Association="iBooxModel.BooksAuthors">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="Author" EntitySet="Authors" />
+          </AssociationSet>
+          <EntitySet Name="BookComments" EntityType="iBooxModel.BookComment" />
+          <AssociationSet Name="Books_Comments" Association="iBooxModel.Books_Comments">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="BookComment" EntitySet="BookComments" />
+          </AssociationSet>
+          <EntitySet Name="BookVotes" EntityType="iBooxModel.BookVote" />
+          <AssociationSet Name="Books_Votes" Association="iBooxModel.Books_Votes">
+            <End Role="Book" EntitySet="Books" />
+            <End Role="BookVote" EntitySet="BookVotes" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="AuthorID" />
+          </Key>
+          <Property Name="AuthorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="FIO" Type="String" MaxLength="70" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Books" Relationship="iBooxModel.BooksAuthors" FromRole="Author" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Publisher">
+          <Key>
+            <PropertyRef Name="PublisherID" />
+          </Key>
+          <Property Name="PublisherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Address" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="City" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Country" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="Website" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Books" Relationship="iBooxModel.Books_Publishers" FromRole="Publisher" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Series">
+          <Key>
+            <PropertyRef Name="SeriesID" />
+          </Key>
+          <Property Name="SeriesID" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="SeriesFull" Type="String" MaxLength="50" Unicode="true" FixedLength="false" Nullable="false" />
+          <NavigationProperty Name="Books" Relationship="iBooxModel.Books_Series" FromRole="Series" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Theme">
+          <Key>
+            <PropertyRef Name="ThemeID" />
+          </Key>
+          <Property Name="ThemeID" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="ThemeFull" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Books" Relationship="iBooxModel.Books_Themes" FromRole="Theme" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="BookID" />
+          </Key>
+          <Property Type="Int32" Name="BookID" Nullable="false" />
+          <Property Type="String" Name="ISBN" Nullable="false" MaxLength="17" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SeriesID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="Int16" Name="Pages" Nullable="false" />
+          <Property Type="Int16" Name="PublicationYear" Nullable="false" />
+          <Property Type="String" Name="Size" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CoverID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Cover2" Nullable="false" />
+          <Property Type="String" Name="ThemeID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Annotation" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PublisherID" Nullable="false" />
+          <Property Type="String" Name="Tags" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AuthorsList" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Votes" Nullable="false" />
+          <Property Type="Int32" Name="TotalRating" Nullable="false" />
+          <Property Type="Binary" Name="upsize_ts" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <NavigationProperty Name="Cover" Relationship="iBooxModel.Books_Covers" FromRole="Book" ToRole="Cover" />
+          <NavigationProperty Name="Publisher" Relationship="iBooxModel.Books_Publishers" FromRole="Book" ToRole="Publisher" />
+          <NavigationProperty Name="Series" Relationship="iBooxModel.Books_Series" FromRole="Book" ToRole="Series" />
+          <NavigationProperty Name="Theme" Relationship="iBooxModel.Books_Themes" FromRole="Book" ToRole="Theme" />
+          <NavigationProperty Name="Authors" Relationship="iBooxModel.BooksAuthors" FromRole="Book" ToRole="Author" />
+          <NavigationProperty Name="BookComments" Relationship="iBooxModel.Books_Comments" FromRole="Book" ToRole="BookComment" />
+          <NavigationProperty Name="BookVotes" Relationship="iBooxModel.Books_Votes" FromRole="Book" ToRole="BookVote" />
+        </EntityType>
+        <EntityType Name="Cover">
+          <Key>
+            <PropertyRef Name="CoverID" />
+          </Key>
+          <Property Type="String" Name="CoverID" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="CoverFull" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Books" Relationship="iBooxModel.Books_Covers" FromRole="Cover" ToRole="Book" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Type="Int32" Name="TagID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Count" />
+        </EntityType>
+        <Association Name="Books_Covers">
+          <End Type="iBooxModel.Cover" Role="Cover" Multiplicity="1" />
+          <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cover">
+              <PropertyRef Name="CoverID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="CoverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_Publishers">
+          <End Type="iBooxModel.Publisher" Role="Publisher" Multiplicity="1" />
+          <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Publisher">
+              <PropertyRef Name="PublisherID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="PublisherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_Series">
+          <End Type="iBooxModel.Series" Role="Series" Multiplicity="1" />
+          <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Series">
+              <PropertyRef Name="SeriesID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="SeriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Books_Themes">
+          <End Type="iBooxModel.Theme" Role="Theme" Multiplicity="1" />
+          <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Theme">
+              <PropertyRef Name="ThemeID" />
+            </Principal>
+            <Dependent Role="Book">
+              <PropertyRef Name="ThemeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BooksAuthors">
+          <End Type="iBooxModel.Book" Role="Book" Multiplicity="*" />
+          <End Type="iBooxModel.Author" Role="Author" Multiplicity="*" />
+        </Association>
+        <EntityType Name="BookComment">
+          <Key>
+            <PropertyRef Name="BookCommentID" />
+          </Key>
+          <Property Type="Int32" Name="BookCommentID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="AddedDate" Nullable="false" />
+          <Property Type="String" Name="AddedBy" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AddedByIP" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="BookID" Nullable="false" />
+          <Property Type="String" Name="Body" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Book" Relationship="iBooxModel.Books_Comments" FromRole="BookComment" ToRole="Book" />
+        </EntityType>
+        <Association Name="Books_Comments">
+          <End Type="iBooxModel.Book" Role="Book" Multiplicity="1" />
+          <End Type="iBooxModel.BookComment" Role="BookComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="BookComment">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="BookVote">
+          <Key>
+            <PropertyRef Name="VoteID" />
+          </Key>
+          <Property Type="Int32" Name="VoteID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="BookID" Nullable="false" />
+          <Property Type="String" Name="AddedBy" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="AddedByIP" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="AddedDate" Nullable="false" />
+          <Property Type="Int32" Name="AddedVote" Nullable="false" />
+          <NavigationProperty Name="Book" Relationship="iBooxModel.Books_Votes" FromRole="BookVote" ToRole="Book" />
+        </EntityType>
+        <Association Name="Books_Votes">
+          <End Type="iBooxModel.Book" Role="Book" Multiplicity="1" />
+          <End Type="iBooxModel.BookVote" Role="BookVote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Book">
+              <PropertyRef Name="BookID" />
+            </Principal>
+            <Dependent Role="BookVote">
+              <PropertyRef Name="BookID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="iBooxModelStoreContainer" CdmEntityContainer="iBooxEntities">
+          <EntitySetMapping Name="Authors"><EntityTypeMapping TypeName="iBooxModel.Author"><MappingFragment StoreEntitySet="Authors">
+            <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+            <ScalarProperty Name="LastName" ColumnName="LastName" />
+            <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+            <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+            <ScalarProperty Name="FIO" ColumnName="FIO" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Publishers"><EntityTypeMapping TypeName="iBooxModel.Publisher"><MappingFragment StoreEntitySet="Publishers">
+            <ScalarProperty Name="PublisherID" ColumnName="PublisherID" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="Address" ColumnName="Address" />
+            <ScalarProperty Name="City" ColumnName="City" />
+            <ScalarProperty Name="Country" ColumnName="Country" />
+            <ScalarProperty Name="Website" ColumnName="Website" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Series"><EntityTypeMapping TypeName="iBooxModel.Series"><MappingFragment StoreEntitySet="Series">
+            <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+            <ScalarProperty Name="SeriesFull" ColumnName="SeriesFull" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Themes"><EntityTypeMapping TypeName="iBooxModel.Theme"><MappingFragment StoreEntitySet="Themes">
+            <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
+            <ScalarProperty Name="ThemeFull" ColumnName="ThemeFull" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetSeriesList" FunctionName="iBooxModel.Store.GetSeriesList" />
+          <FunctionImportMapping FunctionImportName="GetThemesList" FunctionName="iBooxModel.Store.GetThemesList" />
+          <FunctionImportMapping FunctionImportName="GetAuthorsList" FunctionName="iBooxModel.Store.GetAuthorsList" />
+          <FunctionImportMapping FunctionImportName="GetTagsList" FunctionName="iBooxModel.Store.GetTagsList" />
+          <FunctionImportMapping FunctionImportName="GetTag" FunctionName="iBooxModel.Store.GetTag" />
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="iBooxModel.Book">
+              <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="upsize_ts" ColumnName="upsize_ts" />
+                <ScalarProperty Name="TotalRating" ColumnName="TotalRating" />
+                <ScalarProperty Name="Votes" ColumnName="Votes" />
+                <ScalarProperty Name="AuthorsList" ColumnName="AuthorsList" />
+                <ScalarProperty Name="Tags" ColumnName="Tags" />
+                <ScalarProperty Name="PublisherID" ColumnName="PublisherID" />
+                <ScalarProperty Name="Annotation" ColumnName="Annotation" />
+                <ScalarProperty Name="ThemeID" ColumnName="ThemeID" />
+                <ScalarProperty Name="Cover2" ColumnName="Cover2" />
+                <ScalarProperty Name="CoverID" ColumnName="CoverID" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="PublicationYear" ColumnName="PublicationYear" />
+                <ScalarProperty Name="Pages" ColumnName="Pages" />
+                <ScalarProperty Name="SeriesID" ColumnName="SeriesID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Covers">
+            <EntityTypeMapping TypeName="iBooxModel.Cover">
+              <MappingFragment StoreEntitySet="Covers">
+                <ScalarProperty Name="CoverFull" ColumnName="CoverFull" />
+                <ScalarProperty Name="CoverID" ColumnName="CoverID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="iBooxModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="BooksAuthors" TypeName="iBooxModel.BooksAuthors" StoreEntitySet="BooksAuthors">
+            <EndProperty Name="Author">
+              <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+            </EndProperty>
+            <EndProperty Name="Book">
+              <ScalarProperty Name="BookID" ColumnName="BookID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="BookComments">
+            <EntityTypeMapping TypeName="iBooxModel.BookComment">
+              <MappingFragment StoreEntitySet="BookComments">
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="AddedByIP" ColumnName="AddedByIP" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="BookCommentID" ColumnName="BookCommentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookVotes">
+            <EntityTypeMapping TypeName="iBooxModel.BookVote">
+              <MappingFragment StoreEntitySet="BookVotes">
+                <ScalarProperty Name="AddedVote" ColumnName="AddedVote" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="AddedByIP" ColumnName="AddedByIP" />
+                <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
+                <ScalarProperty Name="BookID" ColumnName="BookID" />
+                <ScalarProperty Name="VoteID" ColumnName="VoteID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="iBoox">
+        <EntityTypeShape EntityType="iBooxModel.Author" Width="1.5" PointX="0.875" PointY="0.5" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="iBooxModel.Publisher" Width="1.5" PointX="5.375" PointY="0.5" Height="2.364889322916667" IsExpanded="true" />
+        <EntityTypeShape EntityType="iBooxModel.Series" Width="1.5" PointX="5.375" PointY="3.125" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="iBooxModel.Theme" Width="1.5" PointX="5.375" PointY="5" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="iBooxModel.Book" Width="1.5" PointX="3.125" PointY="1.75" Height="5.634013671875" />
+        <EntityTypeShape EntityType="iBooxModel.Cover" Width="1.5" PointX="5.375" PointY="6.875" Height="1.5956835937500031" />
+        <EntityTypeShape EntityType="iBooxModel.Tag" Width="1.5" PointX="3.125" PointY="7.625" Height="1.5956835937500031" />
+        <AssociationConnector Association="iBooxModel.Books_Covers" >
+          <ConnectorPoint PointX="5.375" PointY="7.1295068359375" />
+          <ConnectorPoint PointX="4.625" PointY="7.1295068359375" />
+        </AssociationConnector>
+        <AssociationConnector Association="iBooxModel.Books_Publishers" >
+          <ConnectorPoint PointX="5.375" PointY="2.3074446614583337" />
+          <ConnectorPoint PointX="4.625" PointY="2.3074446614583337" />
+        </AssociationConnector>
+        <AssociationConnector Association="iBooxModel.Books_Series" >
+          <ConnectorPoint PointX="5.375" PointY="3.922841796875" />
+          <ConnectorPoint PointX="4.625" PointY="3.922841796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="iBooxModel.Books_Themes" >
+          <ConnectorPoint PointX="5.375" PointY="5.797841796875" />
+          <ConnectorPoint PointX="4.625" PointY="5.797841796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="iBooxModel.BooksAuthors" >
+          <ConnectorPoint PointX="3.125" PointY="2.2112939453125" />
+          <ConnectorPoint PointX="2.375" PointY="2.2112939453125" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="iBooxModel.BookComment" Width="1.5" PointX="0.875" PointY="2.875" Height="2.3648893229166674" />
+        <AssociationConnector Association="iBooxModel.Books_Comments" >
+          <ConnectorPoint PointX="3.125" PointY="4.0574446614583337" />
+          <ConnectorPoint PointX="2.375" PointY="4.0574446614583337" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="iBooxModel.BookVote" Width="1.5" PointX="0.875" PointY="5.5" Height="2.3648893229166674" />
+        <AssociationConnector Association="iBooxModel.Books_Votes" >
+          <ConnectorPoint PointX="3.125" PointY="6.4420068359375" />
+          <ConnectorPoint PointX="2.375" PointY="6.4420068359375" />
+        </AssociationConnector>
+        </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

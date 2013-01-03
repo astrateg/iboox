@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Default Web Site/iBoox_deploy" />
+  <setParameter name="ApplicationServices-Web.config Connection String" value="Data Source=EDDI;Initial Catalog=iboox;Integrated Security=True" />
+  <setParameter name="elmah-sqlserver-Web.config Connection String" value="Data Source=EDDI;Initial Catalog=iboox;Integrated Security=True" />
+  <setParameter name="iBooxEntities-Web.config Connection String" value="metadata=res://*/Models.iBoox.csdl|res://*/Models.iBoox.ssdl|res://*/Models.iBoox.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=EDDI;initial catalog=iboox;integrated security=True;multipleactiveresultsets=True;App=EntityFramework&quot;" />
+</parameters>
